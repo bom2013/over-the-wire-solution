@@ -93,26 +93,28 @@ password:
 
 ### level 12 -> 13
 ```shell
- 
+mkdir /tmp/benshlom
+xxd -r data.txt > /tmp/benshlom/data.txt
+cd /tmp/benshlom
+zcat data.txt | bzcat | zcat | tar xO | tar xO | bzcat | tar xO | zcat
 ```
 password:  
-
+8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 ### level 13 -> 14
 ```shell
- 
+ssh -i sshkey.private bandit14@localhost
+cat /etc/bandit_pass/bandit14
 ```
 password:  
-
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 
 ### level 14 -> 15
 ```shell
- 
+telnet localhost 30000
 ```
 password:  
-
-
-
+BfMYroe26WYalil77FoDi9qh59eK5xNr
 
 ### level 15 -> 16
 ```shell
