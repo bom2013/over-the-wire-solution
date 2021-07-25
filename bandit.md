@@ -7,6 +7,7 @@ start password: bandit0
 ```
 ssh bandit<level>@bandit.labs.overthewire.org -p 2220
 ```
+
 ### level 0 -> 1
 ```shell
 cat readme
