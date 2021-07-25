@@ -230,61 +230,131 @@ jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 
 ### level 23 -> 24
 ```shell
- 
+cd /etc/cron.d
+cat cronjob_bandit24
+cd /var/spool/bandit24
+touch t.sh
+nano t.sh
+```
+#### t.sh
+```shell
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/tmp_pass
+```
+Wait minute
+```shell
+cat /tmp/tmp_pass
 ```
 password:  
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 
 ### level 24 -> 25
+cd /tmp
+touch t.sh
+nano t.sh
+#### t.sh
 ```shell
- 
+touch pin.txt
+cp /dev/null pin.txt
+for i in {0..9}{0..9}{0..9}{0..9}
+do
+        echo $(cat /etc/bandit_pass/bandit24) $i >> pin.txt
+done
+```
+
+```shell
+cat pin.txt | nc localhost 30002 > answer.txt
+cat answer.txt
 ```
 password:  
+uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
 
 ### level 25 -> 26
+Resize window to minimum
 ```shell
- 
+ssh -i bandit26.sshkey bandit26@localhost
+v # Open vim from more
+:e /etc/bandit_pass/bandit26 # open password
 ```
 password:  
+5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+
 
 ### level 26 -> 27
+Minimize screen
 ```shell
- 
+v # open vim
+:set shell=/bin/bash # set shell to normal shell
+:shell # return to shell
+./bandit27-do /etc/bandit_pass/bandit27
 ```
 password:  
+3ba3118a22e93127a4ed485be72ef5ea
 
 ### level 27 -> 28
 ```shell
- 
+cd /tmp/
+git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+cd repo
+cat README
 ```
 password:  
+0ef186ac70e04ea33b4c1853d2526fa2
 
 ### level 28 -> 29
 ```shell
- 
+cd /tmp/
+git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+cd repo
+git log -p 
 ```
 password:  
+bbc96594b4e001778eee9975372716b2
 
 ### level 29 -> 30
 ```shell
- 
+cd /tmp
+git clone ssh://bandit29-git@localhost/home/bandit29-git/repo 
+cd repo
+git branch -r # check branchs
+git checkout dev
+git log -p
 ```
 password:  
+5b90576bedb2cc04c86a9e924ce42faf
 
 ### level 30 -> 31
 ```shell
- 
+cd /tmp
+git clone ssh://bandit30-git@localhost/home/bandit30-git/repo
+cd repo
+git tag # see tags
+git show secret
 ```
 password:  
+47e603bb428404d265f59c42920d81e5
 
 ### level 31 -> 32
 ```shell
- 
+cd /tmp
+git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
+cd repo
+touch key.txt
+echo 'May I come in?' > key.txt
+git add -f key.txt
+git commit -m "Test commit"
+git push 
 ```
 password:  
+56a9bf19c63d650ce78e6ec0354ee45e
 
 ### level 32 -> 33
 ```shell
- 
+$0
+cat /etc/bandit_pass/bandit33
 ```
 password:  
+c9c3199ddf4121b10cf581a98d51caee  
 
+# Finish🥳
+![bandit end message](images/bandit_end.png)
