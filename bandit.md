@@ -193,21 +193,40 @@ GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 
 ### level 20 -> 21
 ```shell
-
+tmux
+Ctrl+b c
 ```
+#### Shell 1:
+```shell
+nc -l 1234 < /etc/bandit_pass/bandit20
+```
+#### Shell 2:
+```shell
+./suconnect 1234
+```
+
 password:  
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 
 ### level 21 -> 22
 ```shell
-
+cd /etc/cron.d
+cat cronjob_bandit22
+cat /usr/bin/cronjob_bandit22.sh
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 ```
-password:  
+password: 
+Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI 
 
 ### level 22 -> 23
 ```shell
- 
+cd /etc/cron.d
+cat cronjob_bandit23
+cat /usr/bin/cronjob_bandit23.sh
+cat /tmp/$(echo I am user bandit23 | md5sum | cut -d ' ' -f 1)
 ```
 password:  
+jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 
 ### level 23 -> 24
 ```shell
