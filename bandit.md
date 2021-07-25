@@ -11,28 +11,28 @@ ssh bandit<level>@bandit.labs.overthewire.org -p 2220
 ```shell
 cat readme
 ```
-password:  
+**password:**
 boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 
 ### level 1 -> 2
 ```shell
 cat ./-
 ```
-password:  
+**password:**
 CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 
 ### level 2 -> 3
 ```shell
 cat "spaces in this filename"
 ```
-password:  
+**password:**
 UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 
 ### level 3 -> 4
 ```shell
 cat ./inhere/.hidden
 ```
-password:  
+**password:**
 pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 
 
@@ -41,7 +41,7 @@ pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 file ./-file*
 cat ./-file07
 ```
-password:  
+**password:**
 koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 
 ### level 5 -> 6
@@ -49,7 +49,7 @@ koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 file ./ -size 1033c
 cat ./maybehere07/.file2
 ```
-password:  
+**password:**
 DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 
 ### level 6 -> 7
@@ -57,42 +57,42 @@ DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 find / -user bandit7 -group bandit6 -size 33c 2>/dev/null
 cat /var/lib/dpkg/info/bandit7.password
 ```
-password:  
+**password:**
 HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 
 ### level 7 -> 8
 ```shell
 grep 'millionth' data.txt
 ```
-password:  
+**password:**
 cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 
 ### level 8 -> 9
 ```shell
 sort data.txt | uniq -u 
 ```
-password:  
+**password:**
 UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 
 ### level 9 -> 10
 ```shell
 strings data.txt | grep '=' 
 ```
-password:  
+**password:**
 truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 
 ### level 10 -> 11
 ```shell
 base64 -d data.txt 
 ```
-password:  
+**password:**
 IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 
 ### level 11 -> 12
 ```shell
 cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m' 
 ```
-password:  
+**password:**
 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 
 ### level 12 -> 13
@@ -104,7 +104,7 @@ zcat data.txt | bzcat | zcat | tar xO | tar xO | bzcat | tar xO | zcat
 cd -
 rm -r /tmp/benshlom
 ```
-password:  
+**password:**
 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 ### level 13 -> 14
@@ -112,28 +112,29 @@ password:
 ssh -i sshkey.private bandit14@localhost
 cat /etc/bandit_pass/bandit14
 ```
-password:  
+**password:**
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 
 ### level 14 -> 15
 ```shell
 telnet localhost 30000
 ```
-password:  
+**password:**
 BfMYroe26WYalil77FoDi9qh59eK5xNr
 
 ### level 15 -> 16
 ```shell
 openssl s_client -connect localhost:30001
 ```
-password:  
+**password:**
 cluFn7wTiGryunymYOu4RcffSxQluehd
 
 ### level 16 -> 17
 ```shell
 nmap -p 31000-32000 -sV localhost
 echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -quiet -connect localhost:31790
-password:  
+```
+**password:**
 -----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
 imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
@@ -161,6 +162,7 @@ YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
 dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
 vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
 -----END RSA PRIVATE KEY-----
+```shell
 touch /tmp/key.key
 nano /tmp/key.key
 cd /tmp
@@ -173,7 +175,7 @@ ssh -i key.key bandit17@localhost
 diff passwords.new passwords.old
 <Now login using the password>
 ```
-password:  
+**password:**
 kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 
 ### level 18 -> 19
@@ -181,14 +183,14 @@ kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 ssh -T bandit18@localhost
 cat readme
 ```
-password:  
+**password:**
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 
 ### level 19 -> 20
 ```shell
 ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
-password:  
+**password:**
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 
 ### level 20 -> 21
@@ -205,7 +207,7 @@ nc -l 1234 < /etc/bandit_pass/bandit20
 ./suconnect 1234
 ```
 
-password:  
+**password:**
 gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 
 ### level 21 -> 22
@@ -215,7 +217,7 @@ cat cronjob_bandit22
 cat /usr/bin/cronjob_bandit22.sh
 cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 ```
-password: 
+**password:**
 Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI 
 
 ### level 22 -> 23
@@ -225,7 +227,7 @@ cat cronjob_bandit23
 cat /usr/bin/cronjob_bandit23.sh
 cat /tmp/$(echo I am user bandit23 | md5sum | cut -d ' ' -f 1)
 ```
-password:  
+**password:**  
 jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 
 ### level 23 -> 24
@@ -245,7 +247,7 @@ Wait minute
 ```shell
 cat /tmp/tmp_pass
 ```
-password:  
+**password:**
 UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 
 ### level 24 -> 25
@@ -266,7 +268,7 @@ done
 cat pin.txt | nc localhost 30002 > answer.txt
 cat answer.txt
 ```
-password:  
+**password:**
 uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
 
 ### level 25 -> 26
@@ -276,9 +278,8 @@ ssh -i bandit26.sshkey bandit26@localhost
 v # Open vim from more
 :e /etc/bandit_pass/bandit26 # open password
 ```
-password:  
+**password:**
 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
-
 
 ### level 26 -> 27
 Minimize screen
@@ -288,7 +289,7 @@ v # open vim
 :shell # return to shell
 ./bandit27-do /etc/bandit_pass/bandit27
 ```
-password:  
+**password:**
 3ba3118a22e93127a4ed485be72ef5ea
 
 ### level 27 -> 28
@@ -298,7 +299,7 @@ git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
 cd repo
 cat README
 ```
-password:  
+**password:**  
 0ef186ac70e04ea33b4c1853d2526fa2
 
 ### level 28 -> 29
@@ -308,7 +309,7 @@ git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
 cd repo
 git log -p 
 ```
-password:  
+**password:**
 bbc96594b4e001778eee9975372716b2
 
 ### level 29 -> 30
@@ -320,7 +321,7 @@ git branch -r # check branchs
 git checkout dev
 git log -p
 ```
-password:  
+**password:**  
 5b90576bedb2cc04c86a9e924ce42faf
 
 ### level 30 -> 31
@@ -331,7 +332,7 @@ cd repo
 git tag # see tags
 git show secret
 ```
-password:  
+**password:**
 47e603bb428404d265f59c42920d81e5
 
 ### level 31 -> 32
@@ -345,7 +346,7 @@ git add -f key.txt
 git commit -m "Test commit"
 git push 
 ```
-password:  
+**password:** 
 56a9bf19c63d650ce78e6ec0354ee45e
 
 ### level 32 -> 33
@@ -353,7 +354,7 @@ password:
 $0
 cat /etc/bandit_pass/bandit33
 ```
-password:  
+**password:**  
 c9c3199ddf4121b10cf581a98d51caee  
 
 # Finish🥳
