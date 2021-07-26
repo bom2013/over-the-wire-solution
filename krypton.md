@@ -33,17 +33,17 @@ cat krypton4 | tr ABCDEFGHIJKLMNOPQRSTUVWXYZ BOIHGKNQVTWYURXZAJEMSLDFPC
 WELL DONE THE LEVEL FOUR PASSWORD IS **BRUTE**
 
 ### level 4 -> 5
-Use [Vigenere dechiper](https://www.boxentriq.com/code-breaking/vigenere-cipher) on found1
--> key = 'frekey'
--> krypton5 = 'CLEAR TEXT'
+Use [Vigenere dechiper](https://www.boxentriq.com/code-breaking/vigenere-cipher) on found1  
+-> key = 'frekey'  
+-> krypton5 = 'CLEAR TEXT'  
 **password:**  
 CLEARTEXT
 
 ### level 5 -> 6
 ```shell
-Use [Vigenere dechiper](https://www.boxentriq.com/code-breaking/vigenere-cipher) on found1
--> key = 'keylength'
--> krypton6 = 'RANDO M'
+Use [Vigenere dechiper](https://www.boxentriq.com/code-breaking/vigenere-cipher) on found1  
+-> key = 'keylength'  
+-> krypton6 = 'RANDO M'  
 ```
 **password:**  
 RANDOM
