@@ -109,6 +109,22 @@ vaequeezee
 vaequeezee
                                                                                        
 ### level 3 -> 4
+Their is unsafe copy from argv[1] to ifile, so we can overflow and get into ofile  
+We need to give the program path that serve as somthing we want to read and also serve as payload that pushed to 'ofile' and serve as output file we can read. The path will be in this format:  
+'/tmp/(some padding)/tmp/result'  
+'/tmp/result' will serve as output file and '/tmp/(padding)/tmp/result' as link to password (/etc/narnia_pass/narnia4)  
+Therefore the program will read all data from '/tmp/<padding>/tmp/result and insead of write it to /dev/null he will write it to '/tmp/result' and we can read it.  
+I create [this](https://gist.github.com/bom2013/919a78a2dcb44689d37587bedb43be49) script in some folder inside /tmp/ and run it
+```shell
+narnia3@narnia:/tmp/qwert$ ./solve.sh
+copied contents of /tmp/AAAAAAAAAAAAAAAAAAAAAAAAAAA/tmp/result to a safer place... (/tmp/result)
+thaenohtai
+(.PT narnia3@narnia:/tmp/qwert$
+```
+**password:**  
+thaenohtai
   
+### level 4 -> 5
+
 **password:**  
 
